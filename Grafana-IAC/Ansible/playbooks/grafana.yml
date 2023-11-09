@@ -4,10 +4,6 @@
   hosts: grafana
   become: true
   tasks:
-    - name: Update system packages
-      apt:
-        update_cache: yes
-
     - name: Add Grafana GPG key
       apt_key:
         url: https://packages.grafana.com/gpg.key
@@ -18,27 +14,3 @@
         repo: 'deb https://packages.grafana.com/oss/deb stable main'
         state: present
         update_cache: yes
-
-    # Your other tasks go here
-
-
-
-# - name: Install and Configure Grafana
-#   hosts: grafana
-#   become: true
-#   remote_user: ubuntu
-#   tasks:
-#     - name: Update apt packages
-#       apt:
-#         update_cache: yes
-
-#     - name: Install Grafana
-#       apt:
-#         name: grafana
-#         state: present
-
-#     - name: Start Grafana service
-#       service:
-#         name: grafana-server
-#         state: started
-#         enabled: yes
