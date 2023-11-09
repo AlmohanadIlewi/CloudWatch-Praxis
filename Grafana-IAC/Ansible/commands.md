@@ -1,6 +1,4 @@
 
-# Aktualisiere alle Pakete! 
+- sudo ansible-playbook -i hosts playbooks/grafana.yml
 
-- ubuntu@ip-10-0-1-15:~$ sudo apt update
-
-- ubuntu@ip-10-0-1-15:~$ sudo apt upgrade
+- sudo ansible-playbook -i hosts playbooks/main.yml
