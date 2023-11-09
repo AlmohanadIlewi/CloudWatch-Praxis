@@ -1,0 +1,2 @@
+
+grafana ansible_user=ubuntu ansible_host=3.69.24.130 ansible_ssh_private_key_file="/mnt/c/Users/Al Mohanad Ilewi/Downloads/accesskey.pem"

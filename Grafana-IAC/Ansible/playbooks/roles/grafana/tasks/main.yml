@@ -1,0 +1,29 @@
+---
+- name: Update system packages
+  apt:
+    update_cache: yes
+    upgrade: dist  # Upgrade to the latest distribution packages
+
+- name: Add Grafana GPG key
+  apt_key:
+    url: https://packages.grafana.com/gpg.key
+    state: present
+
+- name: Add Grafana APT repository
+  apt_repository:
+    repo: 'deb https://packages.grafana.com/oss/deb stable main'
+    state: present
+    update_cache: yes
+  notify: Restart Grafana  # Notify to restart Grafana if the repository is added
+
+- name: Install Grafana package
+  apt:
+    name: grafana
+    state: present
+
+- name: Start and enable Grafana service
+  service:
+    name: grafana-server
+    state: started
+    enabled: yes
+  notify: Reload Grafana  # Notify to reload Grafana if the service is started or enabled

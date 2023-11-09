@@ -1,0 +1,9 @@
+---
+- name: Restart Grafana
+  service:
+    name: grafana-server
+    state: restarted
+
+- name: Reload Grafana
+  command: systemctl reload grafana-server
+  ignore_errors: true
