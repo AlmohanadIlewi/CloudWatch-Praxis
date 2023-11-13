@@ -1,0 +1,51 @@
+- name: Update package sources
+  ansible.builtin.apt:
+    update_cache: yes
+  become: true
+
+- name: Install Alertmanager
+  ansible.builtin.apt:
+    name: prometheus-alertmanager
+    state: present
+  become: true
+
+
+- name: Create directory for Alertmanager config
+  ansible.builtin.file:
+    path: /etc/alertmanager
+    state: directory
+  become: true
+
+- name: Copy Alertmanager configuration file
+  ansible.builtin.copy:
+    src: files/alertmanager.yml
+    dest: /etc/alertmanager/alertmanager.yml
+  become: true
+
+
+- name: Configure package sources
+  ansible.builtin.copy:
+    src: roles/alertmanager/files/sources.list
+    dest: /etc/apt/sources.list
+  become: true
+
+
+- name: Start Alertmanager service
+  ansible.builtin.systemd:
+    name: alertmanager
+    state: started
+    enabled: yes
+  become: true
+
+- name: service reenable
+  command: systemctl reenable prometheus-alertmanager.service
+
+- name: restart alertmanager
+  service:
+    name: prometheus-alertmanager
+    state: restarted
+
+- name: reload alertmanager
+  service:
+    name: prometheus-alertmanager
+    state: reloaded

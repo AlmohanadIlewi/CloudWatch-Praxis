@@ -1,0 +1,17 @@
+# alertmanager.yml
+
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: 'email'
+
+receivers:
+  - name: 'email'
+    email_configs:
+      - to: 'mohanad.ilewi.83@gmail.com'
+
+web:
+  listen_address: '0.0.0.0:9093'
+  # Verwende hier den Pfad, wo deine UI-Dateien bereitgestellt werden
+  ui_path: '/usr/share/prometheus/alertmanager/ui/'
