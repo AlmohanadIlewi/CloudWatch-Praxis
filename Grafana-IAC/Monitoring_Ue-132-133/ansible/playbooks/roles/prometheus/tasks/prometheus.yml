@@ -33,9 +33,11 @@
         scrape_interval: 15s
 
       scrape_configs:
-        - job_name: node
+        - job_name: "prometheus"
           static_configs:
-              - targets: ['localhost:9100',"{{ groups['node-exporter'][0] }}:9100"]
+              - targets: 
+                      ['localhost:9100',"{{ groups['node-exporter'][0] }}:9100"]
+
 
 - name: create service file
   copy:
@@ -57,3 +59,9 @@
     name: prometheus
     state: started
     enabled: true
+
+- name: Copy Prometheus configuration file
+  ansible.builtin.copy:
+    src: files/prometheus.yml
+    dest: /etc/prometheus/prometheus.yml
+  become: true
