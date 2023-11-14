@@ -1,7 +1,9 @@
-- name: Update package sources
+- name: Update all packages
   ansible.builtin.apt:
-    update_cache: yes
+    name: "*"
+    state: latest
   become: true
+
 
 - name: Install Alertmanager
   ansible.builtin.apt:
@@ -23,16 +25,16 @@
   become: true
 
 
-- name: Configure package sources
-  ansible.builtin.copy:
-    src: roles/alertmanager/files/sources.list
-    dest: /etc/apt/sources.list
-  become: true
+# - name: Configure package sources
+#   ansible.builtin.copy:
+#     src: roles/Alertmanager/files/sources.list
+#     dest: /etc/apt/sources.list
+#   become: true
 
 
 - name: Start Alertmanager service
   ansible.builtin.systemd:
-    name: alertmanager
+    name: prometheus-alertmanager
     state: started
     enabled: yes
   become: true
