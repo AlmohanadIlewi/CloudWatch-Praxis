@@ -12,6 +12,8 @@ Main commands:
   destroy       Destroy previously-created infrastructure
 
     Path to key_pair.pem 
+
+    terraform -chdir=Terraform_Prometheus init
     
    # Path to Key "C:\Users\Al Mohanad Ilewi\Downloads\accesskey.pem"  
 

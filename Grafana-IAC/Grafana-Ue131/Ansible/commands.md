@@ -10,11 +10,10 @@
 
 - :~$ netstat -plnt
 
-  sudo systemctl status grafana-server
+- sudo systemctl status grafana-server
 
-  ubuntu@ip-xx-x-x-xx:/etc/grafana$ sudo cat grafana.ini | grep http_port
+- ubuntu@ip-xx-x-x-xx:/etc/grafana$ sudo cat grafana.ini | grep http_port
 
-- ubuntu@ip-10-0-1-15:/etc/grafana$ ls
 
 #####################################################
 

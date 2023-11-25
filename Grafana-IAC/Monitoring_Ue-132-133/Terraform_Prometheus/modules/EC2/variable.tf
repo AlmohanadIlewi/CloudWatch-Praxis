@@ -18,5 +18,5 @@ variable "instance_ami" {
 
 variable "key" {
   type    = string
-  default = "promkey"
+  default = "aufgabe1133"
 }

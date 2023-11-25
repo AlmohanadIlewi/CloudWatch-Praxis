@@ -46,8 +46,8 @@ ingress {
 
 ingress {
     description = "Grafana"
-    from_port   = 3333
-    to_port     = 3333
+    from_port   = 3000
+    to_port     = 3000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
     }

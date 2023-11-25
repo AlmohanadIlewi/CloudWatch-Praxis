@@ -1,26 +1,38 @@
 
 ---
-- name: Prometheus Setup
+- name: Grafana & Prometheus
   hosts: prometheus
+  roles: 
+  - prometheus
+  - grafana
+  - alertmanager
+  - node-exporter
   become: true
-  roles:
-    - prometheus
 
-- name: Node Exporter Setup
-  hosts: node-exporter
-  become: true
-  roles:
-    - node-exporter
 
-- name: Grafana Setup
-  hosts: prometheus
-  become: true
-  roles:
-    - grafana
 
-- name: Deploy Prometheus and Alertmanager
-  hosts: prometheus
-  become: true
-  roles:
-    - prometheus
-    - alertmanager
+# - name: Prometheus Setup
+#   hosts: prometheus
+#   become: true
+#   roles:
+#     - prometheus
+
+# - name: Node Exporter Setup
+#   hosts: prometheus
+#   become: true
+#   roles:
+#     - node-exporter
+
+# - name: Grafana Setup
+#   hosts: prometheus
+#   become: true
+#   roles:
+#     - grafana
+
+# - name: Deploy Prometheus and Alertmanager
+#   hosts: prometheus
+#   become: true
+#   roles:
+#     - prometheus
+#     - alertmanager
+

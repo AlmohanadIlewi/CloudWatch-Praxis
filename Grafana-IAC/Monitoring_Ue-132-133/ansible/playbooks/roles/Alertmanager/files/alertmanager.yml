@@ -1,15 +1,54 @@
-global:
-  resolve_timeout: 5m
-
 route:
-  receiver: 'email'
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 1m
+  repeat_interval: 1h
+  receiver: 'sns-notification'
 
 receivers:
-  - name: 'email'
-    email_configs:
-      - to: 'mohanad.ilewi.83@gmail.com'
+  - name: 'sns-notification'
+    sns_configs:
+      - topic_arn: 'SNS_arn'
+        sigv4:
+          region: eu-central-1
+          profile: techstarter
+          access_key: ASIAZB3E7DBM2CQO7F5E
+          secret_key: eXwVIlufArBPvt09DqDPJLZMwxLifqSrfexzEh4T
 
-web:
-  listen_address: '0.0.0.0:9093'
-  # Verwende hier den Pfad, wo deine UI-Dateien bereitgestellt werden
-  ui_path: '/usr/share/prometheus/alertmanager/ui/'
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal:
+      - alertname
+      - dev
+      - instance
+
+
+
+
+
+
+# route:
+#   group_by: ['alertname']
+#   group_wait: 30s
+#   group_interval: 1m
+#   repeat_interval: 1h
+#   receiver: 'aws.sns'
+
+# receivers:
+#   - name: 'aws.sns'
+#     sns_configs:
+#     - sigv4:
+#         region: eu-central-1
+#       topic_arn: aws_sns_topic.prometheus-alerts.arn
+
+# inhibit_rules:
+#   - source_match:
+#       severity: 'critical'
+#     target_match:
+#       severity: 'warning'
+#     equal: ['alertname', 'dev', 'instance']
+
+    

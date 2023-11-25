@@ -1,53 +1,54 @@
+---
 - name: Update all packages
   ansible.builtin.apt:
     name: "*"
     state: latest
-  become: true
 
-
-- name: Install Alertmanager
-  ansible.builtin.apt:
-    name: prometheus-alertmanager
-    state: present
-  become: true
-
-
-- name: Create directory for Alertmanager config
-  ansible.builtin.file:
-    path: /etc/alertmanager
+- name: create directory
+  file:
+    path: /home/ubuntu/alertmanager
     state: directory
-  become: true
 
-- name: Copy Alertmanager configuration file
+- name: download alertmanager tarball
+  get_url:
+    url: "https://github.com/prometheus/alertmanager/releases/download/v0.26.0/alertmanager-0.26.0.linux-amd64.tar.gz"
+    dest: "/home/ubuntu/alertmanager/alertmanager-0.26.0.linux-amd64.tar.gz"
+
+- name: unpack installation files
+  unarchive:
+    src: "/home/ubuntu/alertmanager/alertmanager-0.26.0.linux-amd64.tar.gz"
+    dest: "/home/ubuntu/alertmanager"
+    remote_src: yes
+
+- name: move files
+  copy:
+    src: "/home/ubuntu/alertmanager/alertmanager-0.26.0.linux-amd64/"
+    dest: "/usr/local/bin/alertmanager/"
+    remote_src: yes
+
+- name: copy config file
   ansible.builtin.copy:
     src: files/alertmanager.yml
-    dest: /etc/alertmanager/alertmanager.yml
-  become: true
+    dest: "/usr/local/bin/alertmanager/alertmanager.yml"
 
+- name: create service file
+  copy:
+    dest: "/etc/systemd/system/alertmanager.service"
+    content: |
+      [Unit]
+      Description=Alertmanager
+      After=network.target
 
-# - name: Configure package sources
-#   ansible.builtin.copy:
-#     src: roles/Alertmanager/files/sources.list
-#     dest: /etc/apt/sources.list
-#   become: true
+      [Service]
+      Type=simple
+      ExecStart=/usr/local/bin/alertmanager/alertmanager --config.file=/usr/local/bin/alertmanager/alertmanager.yml
 
+      [Install]
+      WantedBy=multi-user.target
 
-- name: Start Alertmanager service
-  ansible.builtin.systemd:
-    name: prometheus-alertmanager
-    state: started
-    enabled: yes
-  become: true
-
-- name: service reenable
-  command: systemctl reenable prometheus-alertmanager.service
-
-- name: restart alertmanager
-  service:
-    name: prometheus-alertmanager
+- name: service always started
+  systemd:
+    name: alertmanager
     state: restarted
-
-- name: reload alertmanager
-  service:
-    name: prometheus-alertmanager
-    state: reloaded
+    enabled: true
+    daemon_reload: yes
