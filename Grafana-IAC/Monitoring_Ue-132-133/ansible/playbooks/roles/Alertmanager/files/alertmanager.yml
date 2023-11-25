@@ -12,8 +12,8 @@ receivers:
         sigv4:
           region: eu-central-1
           profile: techstarter
-          access_key: ASIAZB3E7DBM2CQO7F5E
-          secret_key: eXwVIlufArBPvt09DqDPJLZMwxLifqSrfexzEh4T
+          access_key: "xxxxx"
+          secret_key: "xxxxx"
 
 inhibit_rules:
   - source_match:
